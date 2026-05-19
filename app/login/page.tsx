@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Music } from 'lucide-react'
@@ -16,13 +18,13 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
-  const supabase = createClient()
 
   async function sendOtp(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
     setError('')
 
+    const supabase = createClient()
     const normalized = phone.replace(/\D/g, '').replace(/^0/, '+972')
     const { error } = await supabase.auth.signInWithOtp({ phone: normalized })
     if (error) {
@@ -38,6 +40,7 @@ export default function LoginPage() {
     setLoading(true)
     setError('')
 
+    const supabase = createClient()
     const normalized = phone.replace(/\D/g, '').replace(/^0/, '+972')
     const { error } = await supabase.auth.verifyOtp({
       phone: normalized,

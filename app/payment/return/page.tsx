@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
@@ -13,11 +15,11 @@ function PaymentReturnContent() {
   const [status, setStatus] = useState<'loading' | 'confirmed' | 'failed'>(
     urlStatus === 'failed' ? 'failed' : 'loading'
   )
-  const supabase = createClient()
 
   useEffect(() => {
     if (!bookingId || urlStatus === 'failed') return
 
+    const supabase = createClient()
     let attempts = 0
     const poll = setInterval(async () => {
       attempts++

@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState } from 'react'
 import { useParams } from 'next/navigation'
 import { Star } from 'lucide-react'
@@ -16,13 +18,13 @@ export default function FeedbackPage() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const supabase = createClient()
 
   async function submit() {
     if (!rating) return
     setLoading(true)
     setError('')
 
+    const supabase = createClient()
     const { error } = await supabase.from('feedback').insert({
       booking_id: bookingId,
       rating,

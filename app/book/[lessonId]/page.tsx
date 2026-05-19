@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -24,7 +26,6 @@ type Step = 'details' | 'otp' | 'processing' | 'waitlisted'
 export default function BookPage() {
   const { lessonId } = useParams<{ lessonId: string }>()
   const router = useRouter()
-  const supabase = createClient()
 
   const [step, setStep] = useState<Step>('details')
   const [otp, setOtp] = useState('')
@@ -42,6 +43,7 @@ export default function BookPage() {
     setError('')
     setFormData(data)
 
+    const supabase = createClient()
     const normalized = data.phone.replace(/^0/, '+972')
     setPhone(normalized)
 
@@ -59,6 +61,7 @@ export default function BookPage() {
     setLoading(true)
     setError('')
 
+    const supabase = createClient()
     const { error: otpError } = await supabase.auth.verifyOtp({
       phone,
       token: otp,
